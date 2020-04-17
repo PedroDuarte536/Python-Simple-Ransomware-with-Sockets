@@ -1,16 +1,16 @@
 # Python-Simple-Ransomware-with-Sockets
 
-server.py                     # attacker script
+      server.py                     # attacker script
 
-Target                        # victim's filesystem
+      Target                        # victim's filesystem
 
-      Teste                   # folder that will be affected
+            Teste                   # folder that will be affected
       
-            importante.txt    # file that will be affected
+                  importante.txt    # file that will be affected
             
-      client.py               # script to run on victim's pc
+            client.py               # script to run on victim's pc
       
-      importante.txt          # file that will be affected
+            importante.txt          # file that will be affected
       
       
       
